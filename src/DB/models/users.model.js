@@ -13,16 +13,19 @@ export const User = sequelize.define('users', {
         autoIncrement: true
     }
     , name:{
-        type:DataTypes.STRING
+        type:DataTypes.STRING,
+        allowNull:false,
     }
     , email:{
         type:DataTypes.STRING,
+        allowNull:false,
         validate:{
             isEmail:true
         }
     },
     password:{
         type:DataTypes.STRING,
+        allowNull:false,
         validate:{
             checkPasswordLength(value){
                 if(value.length <= 6){
