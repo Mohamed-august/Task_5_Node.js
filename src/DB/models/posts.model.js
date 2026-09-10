@@ -33,7 +33,7 @@ Post.init({
 },{
     sequelize,
     tableName:'posts',
-    paranoid:false
+    paranoid:true
     
 })
 Post.hasMany(Comment, { foreignKey: 'postID' });
