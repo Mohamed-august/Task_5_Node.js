@@ -1,8 +1,9 @@
 import { Router } from "express";
-import {getAllPosts} from "./posts.services.js";
+import { getAllPosts,getPostbyID } from "./posts.services.js";
 import { Post } from "../../DB/models/posts.model.js";
-import {User} from "../../DB/models/users.model.js";
-import {Comment} from "../../DB/models/comments.model.js";
+import { User } from "../../DB/models/users.model.js";
+import { Comment } from "../../DB/models/comments.model.js";
+import { sequelize } from "../../DB/db.connection.js";
 const postRouter = Router();
 
 postRouter.post("/", async (req, res) => {
@@ -24,7 +25,7 @@ postRouter.post("/", async (req, res) => {
 postRouter.delete("/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        const post = await Post.findByPk(id);
+        const post = await getPostbyID(id);
         if (!post) {
             return res.status(404).json({ msg: "Post not found" });
         }
@@ -36,7 +37,7 @@ postRouter.delete("/:id", async (req, res) => {
     }}
 });
 
-postRouter.get("/", (req, res) => {
+postRouter.get("/details", (req, res) => {
     getAllPosts()
         .then((posts) => res.status(200).json({ posts }))
         .catch((err) => res.status(500).json({ msg: "Internal server error", err }));

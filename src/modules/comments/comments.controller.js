@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { Op } from "sequelize";
 import {getCommentbyID} from "./comments.services.js";
 import { Comment } from "../../DB/models/comments.model.js";
 import {User} from "../../DB/models/users.model.js";
@@ -19,7 +20,7 @@ commentRouter.patch("/:id", async (req, res) => {
     const id = req.params.id;
     const {content} = req.body;
     try {
-        const comment = await Comment.findByPk(id);
+        const comment = await Comment.getCommentbyID(id);
         if(!comment){
             return res.status(404).json({msg:"Comment not found"});
         }
@@ -53,35 +54,43 @@ commentRouter.post("/find-or-create", (req, res) => {
     })
 })
 
-commentRouter.get("/search", (req, res) => {
-    const {content}=req.query;
-    Comment.findAll({
-        where: {
-            content: content
-        }
-    })
-    .then((comments) => {
-        res.status(200).json({comments})
-    })
-    .catch((err) => {
-        res.status(500).json({msg:"Internal server error", err})
-    })
-})
+commentRouter.get("/search", async (req, res) => {
+    const { word } = req.query;
+    try {
+        const { count, rows: comments } = await Comment.findAndCountAll({
+            where: {
+                content: {
+                    [Op.like]: `%${word}%`
+                }
+            }
+        });
 
-commentRouter.get("/newest/:postid", async (req, res) => {
-    const {postid} = req.params;
+        if (count === 0) {
+            return res.status(200).json({ message: "no comments found." });
+        }
+
+        return res.status(200).json({ count, comments });
+    } catch (err) {
+        return res.status(500).json({ msg: "Internal server error", err });
+    }
+});
+
+commentRouter.get("/newest/:postId", async (req, res) => {
+    const { postId } = req.params;
     try {
         const comments = await Comment.findAll({
             where: {
-                postID: postid
+                postID: postId
             },
+            attributes: ['id', 'content', 'createdAt'],
             order: [
                 ['createdAt', 'DESC']
-            ]
+            ],
+            limit: 3
         });
-        res.status(200).json({comments});
+        res.status(200).json(comments);
     } catch (err) {
-        res.status(500).json({msg:"Internal server error", err});
+        res.status(500).json({ msg: "Internal server error", err });
     }
 });
 

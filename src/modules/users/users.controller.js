@@ -1,10 +1,8 @@
 import { Router } from "express";
 import { User } from "../../DB/models/users.model.js";
+import { getUserbyID } from "./users.services.js";
 const userRouter = Router();
 
-userRouter.get("/", (req, res) => {
-    res.status(200).json({msg:"user module"})
-})
 
 userRouter.get("/by-email", (req, res) => {
     const { email } = req.query;
@@ -22,20 +20,26 @@ userRouter.get("/by-email", (req, res) => {
         });
 });
 
-userRouter.post("/signup", (req, res) => {
-    const {name, email, password, role} = req.body;
-    User.create({name, email, password, role})
-    .then((user) => {
-        res.status(201).json({msg:"User created successfully", user})
-    })
-    .catch((err) => {
-        if (err.name === "SequelizeUniqueConstraintError") {
-                return res.status(409).json({ msg: "Email already exists" });
-            }
-            res.status(500).json({ msg: "Internal server error", err });
-    })
-})
+userRouter.post("/", async (req, res) => {
+    const { name, email, password } = req.body;
+    try {
+        const isUserExist = await User.findOne({ where: { email } });
+        if (isUserExist) {
+            return res.status(409).json({ msg: "User already exists" });
+        }
 
+        const user = await User.create({
+            name,
+            email,
+            password,
+        });
+
+        return res.status(201).json({ msg: "User created successfully", user });
+    } 
+    catch (err) {
+        return res.status(500).json({ msg: "Internal server error", err });
+    }
+});
 
 userRouter.put("/:id", (req, res) => {
     const { id } = req.params;
@@ -51,6 +55,19 @@ userRouter.put("/:id", (req, res) => {
         .catch((err) => {
             res.status(500).json({ msg: "Internal server error", err });
         });
+});
+
+userRouter.get("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = await getUserbyID(id);
+        if (!user) {
+            return res.status(404).json({ msg: "User not found" });
+        }
+        return res.status(200).json({ msg: "User found", user });
+    } catch (err) {
+        return res.status(500).json({ msg: "Internal server error", err });
+    }
 });
 
 export default userRouter;

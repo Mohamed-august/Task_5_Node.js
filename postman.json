@@ -1,0 +1,153 @@
+[
+    {
+        "name":"Mohamed Hossam",
+        "email":"Mohamed.Hossam@gmail.com",
+        "password":123
+    },
+    {"name":"Ahmed Hossam",
+    "email":"Ahmed.Hossam@gmail.com",
+    "age":25,
+    "role":"admin"
+    },
+    {
+        "id": 1,
+        "name": "John Doe",
+        "email": "John.Doe@example.com",
+        "role": "user"
+    }
+    ,
+    {
+    "msg": "User found",
+    "user": {
+        "id": 1,
+        "name": "John Doe",
+        "email": "John.Doe@example.com",
+        "password": "password123",
+        "createdAt": "2026-09-10T06:51:46.000Z",
+        "updatedAt": "2026-09-10T06:51:46.000Z"
+    }
+}
+,
+{
+    "msg": "Post deleted"
+}
+,
+{
+    "posts": [
+        {
+            "id": 1,
+            "title": "hamada",
+            "user": {
+                "id": 1,
+                "name": "John Doe"
+            },
+            "Comments": [
+                {
+                    "id": 1,
+                    "content": "Hi men"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Hi",
+            "user": {
+                "id": 1,
+                "name": "John Doe"
+            },
+            "Comments": []
+        }
+    ]
+}
+,
+
+
+{
+    "posts": [
+        {
+            "id": 1,
+            "title": "hamada",
+            "commentCount": 1
+        },
+        {
+            "id": 2,
+            "title": "Hi",
+            "commentCount": 0
+        }
+    ]
+}
+,
+
+{
+    "comment created successfully": [
+        {
+            "createdAt": "2026-09-11T15:27:21.310Z",
+            "updatedAt": "2026-09-11T15:27:21.310Z",
+            "id": 2,
+            "content": "Hello",
+            "postID": 3,
+            "userID": 6
+        }
+    ]
+}
+,
+{
+    "comment created successfully": {
+        "createdAt": "2026-09-11T15:48:51.517Z",
+        "updatedAt": "2026-09-11T15:48:51.518Z",
+        "id": 3,
+        "content": "Mohamed",
+        "postID": 3,
+        "userID": 6
+    }
+}
+,
+{
+    "count": 1,
+    "comments": [
+        {
+            "id": 2,
+            "content": "Hello",
+            "userID": 6,
+            "postID": 3,
+            "createdAt": "2026-09-11T15:27:21.000Z",
+            "updatedAt": "2026-09-11T15:27:21.000Z"
+        }
+    ]
+}
+,
+[
+    {
+        "id": 4,
+        "content": "Lol",
+        "createdAt": "2026-09-11T16:00:22.000Z"
+    },
+    {
+        "id": 3,
+        "content": "Mohamed",
+        "createdAt": "2026-09-11T15:48:51.000Z"
+    },
+    {
+        "id": 2,
+        "content": "Hello",
+        "createdAt": "2026-09-11T15:27:21.000Z"
+    }
+]
+,
+{
+    "comment": {
+        "id": 1,
+        "content": "Hi men",
+        "user": {
+            "id": 1,
+            "name": "John Doe",
+            "email": "John.Doe@example.com"
+        },
+        "Post": {
+            "id": 1,
+            "title": "hamada",
+            "content": "lol"
+        }
+    }
+}
+]

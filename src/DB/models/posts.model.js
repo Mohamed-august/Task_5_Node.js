@@ -38,5 +38,5 @@ Post.init({
     paranoid:true
     
 })
-Post.hasMany(Comment, { foreignKey: 'postID' });
+Post.hasMany(Comment, { foreignKey: 'postID', as: 'comments' });
 Comment.belongsTo(Post, { foreignKey: 'postID' });
